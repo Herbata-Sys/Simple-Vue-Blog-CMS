@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Instalacja</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:200,400,600,900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="info"></div>
+
+  <div class="container">
+    <h1>Instalacja bloga</h1>
+    <form class="form">
+      <h3>Ogólne</h3>
+      <div class="tip">Nazwa i krótki podtytuł widoczny obok nazwy.</div>
+      <input class="blogName" type="text" placeholder="Nazwa bloga" required>
+      <input class="blogSubtitle" type="text" placeholder="Podtytuł bloga" required>
+      Logo (.png 50x50px):<br>
+      <input class="logo" type="file" accept="image/png, .png" onchange="loadFile(event)" required>
+      <img class="preview" src=''>
+
+      <h3>reCaptcha v2</h3>
+      <div class="tip">Klucze recaptcha v2, aby je zdobyć należy dodać naszą stronę tutaj <a href="https://www.google.com/recaptcha/admin/create">Klik</a>. Wpisujemy adres strony na której aktualnie się znajdujemy, wybieramy recaptcha v2, Pole wyboru „Nie jestem robotem” i po zarejestrowaniu kluczy przekopiwoujemy je do pól poniżej. Zabezpieczenie captcha pomaga chronić naszą stronę przed botami i spamerami.</div>
+      <input class="recaptcha_website_key" type="text" placeholder="Klucz captcha (dla witryny)" required>
+      <input class="recaptcha_server_key" type="text" placeholder="Klucz captcha (dla serwera)" required>
+
+      <h3>Konto administratora bloga</h3>
+      <div class="tip">Poniższymi danymi będziesz logował się do bloga (email i hasło). Nazwa będzie widoczna dla użytkowników.</div>
+      <input class="blogUserEmail" type="email" placeholder="Email" required>
+      <input class="blogUserName" type="text" placeholder="Nazwa użytkownika" required>
+      <input class="blogUserPassword" type="password" placeholder="Hasło" required>
+
+      <h3>Baza danych</h3>
+      <div class="tip">Dane potrzebne do połączenia się z bazą danych i utworzenia tabel, jeśli nie ma hasła to pozostaw je puste.</div>
+      <input class="servername" type="text" placeholder="Adres serwera bazy danych" required>
+      <input class="username" type="text" placeholder="Nazwa użytkownika" required>
+      <input class="password" type="password" placeholder="Hasło">
+      <input class="database" type="text" placeholder="Nazwa bazy danych" required>
+      <input type="submit" value="Zainstaluj">
+    </form>
+  </div>
+</body>
+</html>
+
+<script>
+  form = document.querySelector('.form');
+  form.addEventListener('submit', submit)
+  function loadFile(event) {
+    var preview = document.querySelector('.preview');
+    preview.src = URL.createObjectURL(event.target.files[0]);
+  };
+
+  async function submit(event) {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('blogName', document.querySelector('.blogName').value);
+    formData.append('blogSubtitle', document.querySelector('.blogSubtitle').value);
+    formData.append('logo', document.querySelector('.logo').files[0]);
+    formData.append('recaptcha_website_key', document.querySelector('.recaptcha_website_key').value);
+    formData.append('recaptcha_server_key', document.querySelector('.recaptcha_server_key').value);
+    formData.append('blogUserEmail', document.querySelector('.blogUserEmail').value);
+    formData.append('blogUserName', document.querySelector('.blogUserName').value);
+    formData.append('blogUserPassword', document.querySelector('.blogUserPassword').value);
+    formData.append('servername', document.querySelector('.servername').value);
+    formData.append('username', document.querySelector('.username').value);
+    formData.append('password', document.querySelector('.password').value);
+    formData.append('database', document.querySelector('.database').value);
+
+    try {
+      const info = document.querySelector('.info');
+      const response = await postData('http://localhost/api/install.php', formData);
+      if (response.success) {
+        info.style.background = '#4dff6b';
+        info.style.display = 'block';
+        info.innerHTML = response.info;
+      } else {
+        info.style.background = '#ff4d4d';
+        info.style.display = 'block';
+        info.innerHTML = response.info;
+      }
+
+      console.log(JSON.stringify(response));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+  async function postData(url, formData) {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    });
+    return await response.json();
+  }
+</script>
+
+<style>
+  * {
+    font-family: 'Raleway';
+    box-sizing: border-box;
+  }
+
+  .tip{
+    font-size: 12px;
+    width: 400px;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .info{
+    display: none;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 1px 1px 1px 2px #00000033;
+    border-bottom: 1px solid #3a3a3a;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+
+  .container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 98%;
+    width: 900px;
+    margin: 20px auto;
+    padding: 50px 0;
+    background: rgb(255, 174, 0);
+  }
+
+  h3{
+    padding-top: 40px;
+    font-size: 20px;
+  }
+
+  .form{
+    width: 100%;
+    text-align: center;
+  }
+
+  input[type=text], input[type=email], input[type=password], input[type=submit]{
+    display: block;
+    margin: 10px auto;
+    font-size: 22px;
+    max-width: 95%;
+    width: 400px;
+    padding: 10px 5px;
+    border: 2px solid #ff9494;
+    margin-bottom: 20px;
+  }
+
+  input[type=file]{
+    padding: 10px;
+  }
+
+  input[type=submit]{
+    border: 1px solid #ffbc00;
+    padding: 10px;
+    font-weight: 900;
+    cursor: pointer;
+    background: #fdd872;
+    transition: 1s background;
+    will-change: background;
+  }
+
+  input[type=submit]:hover{
+    background: none;
+  }
+
+  .preview{
+    max-width: 100%;
+    display: block;
+    margin: auto;
+  }
+  </style>
