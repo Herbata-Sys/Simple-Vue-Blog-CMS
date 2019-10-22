@@ -70,7 +70,7 @@
 
     try {
       const info = document.querySelector('.info');
-      const response = await postData('http://localhost/api/install.php', formData);
+      const response = await postData('../api/install.php', formData);
       if (response.success) {
         info.style.background = '#4dff6b';
         info.style.display = 'block';
