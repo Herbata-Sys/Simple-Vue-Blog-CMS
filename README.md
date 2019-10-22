@@ -1,29 +1,23 @@
-# cms
+# Simple-Vue-Blog-CMS
 
-## Project setup
+## How to install
+
+### 1. Run this command in repository folder to download all needed modules
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
+### 2. Run this command to build application, built application will appear in new /dist directory
 ```
 npm run build
 ```
 
-### Run your tests
+### 3. Copy /dist content to your server running latest PHP version to main path (/)
+
+### 4. Open your server in browser and add /install to its hostname e.g.
 ```
-npm run test
+https://example/install
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+### 5. Follow further instructions on install site
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
