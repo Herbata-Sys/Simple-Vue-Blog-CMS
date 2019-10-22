@@ -25,9 +25,7 @@ require_once "api.php";
 					$im = imagecreatefromstring(file_get_contents($logo['tmp_name']));
 					$im = imagescale($im, 32);
 					imagewebp($im, '../img/favicon.ico');
-					$im = imagecreatefromstring(file_get_contents($logo['tmp_name']));
-					$im = imagescale($im, 50);
-					imagewebp($im, '../img/logo.png');
+					file_put_contents('../img/logo.png', file_get_contents($logo['tmp_name']));
 				}
 
 				$stmt = $this->pdo->prepare('UPDATE blog SET title = :title, subtitle = :subtitle, captcha = :captcha WHERE id = 1');

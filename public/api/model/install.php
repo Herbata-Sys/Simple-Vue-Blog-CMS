@@ -190,9 +190,7 @@ class Install extends api {
       $im = imagecreatefromstring(file_get_contents($logo['tmp_name']));
       $im = imagescale($im, 32);
       imagewebp($im, '../img/favicon.ico');
-      $im = imagecreatefromstring(file_get_contents($logo['tmp_name']));
-      $im = imagescale($im, 50);
-      imagewebp($im, '../img/logo.png');
+      file_put_contents('../img/logo.png', file_get_contents($logo['tmp_name']));
 
       return true;
     } catch(PDOException $e) {
