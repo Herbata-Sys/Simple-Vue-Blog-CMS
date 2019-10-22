@@ -1,7 +1,9 @@
 <?php
 SESSION_START();
 
+require_once "model/api.php";
 require_once "model/install.php";
+$api = new Api;
 $install = new Install;
 
 //install
@@ -22,6 +24,6 @@ if (!empty($_POST['blogName']) && !empty($_POST['blogSubtitle']) && !empty($_FIL
   ];
   echo $install->installation($data);
 } else {
-  echo $install->create_object('Nie podano wszystkich danych', false);
+  echo $api->create_object('Nie podano wszystkich danych', false);
 }
 ?>

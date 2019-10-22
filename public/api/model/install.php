@@ -4,18 +4,10 @@ require_once "api.php";
 class Install extends api {
   public $install_pdo;
 
-  public function __construct() {
-    return true;
-  }
-
   function connect() {
     include 'model/config.php';
     $this->install_pdo = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);
     $this->install_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  }
-
-  public function create_object($info, $success = false, $data = null) {
-    return json_encode(["info" => $info, "success" => $success, "data" => $data]);
   }
 
   function connectNoDb() {
