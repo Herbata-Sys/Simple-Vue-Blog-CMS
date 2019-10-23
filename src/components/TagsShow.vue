@@ -82,7 +82,7 @@ export default {
     margin-bottom: 40px;
 
     &:hover .tags__icon{
-      transform: rotate(90deg);
+      transform: translateX(-20%) rotate(360deg);
     }
 
     &:hover{

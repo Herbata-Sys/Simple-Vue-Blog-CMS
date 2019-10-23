@@ -27,9 +27,11 @@ export default {
       },
       lightCss: {
         '--main-text-color': 'black',
+        '--button-hover-color': '#fdd872',
       },
       darkCss: {
         '--main-text-color': '#d8d8d8',
+        '--button-hover-color': '#ffb10030',
       },
     };
   },
@@ -84,20 +86,27 @@ export default {
     padding: 5px;
     font-size: 18px;
     margin: 10px 0;
-    border: 1px solid #ffbc00;
+    border: 3px dashed #ffbc00;
     color: var(--main-text-color);
+    border-radius: 5px;
   }
 
   &__submit{
+    transition: background .5s;
+    will-change: background;
     cursor: pointer;
     display: block;
     background: transparent;
-    padding: 5px;
+    padding: 5px 10px;
     margin: 10px 0;
     border: 1px solid #ffbc00;
     font-weight: 600;
     font-size: 20px;
     color: var(--main-text-color);
+
+    &:hover{
+      background: var(--button-hover-color);
+    }
   }
 }
 </style>

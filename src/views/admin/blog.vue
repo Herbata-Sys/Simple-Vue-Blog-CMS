@@ -36,9 +36,11 @@ export default {
       blog: {},
       lightCss: {
         '--main-text-color': 'black',
+        '--button-hover-color': '#fdd872',
       },
       darkCss: {
         '--main-text-color': '#d8d8d8',
+        '--button-hover-color': '#ffb10030',
       },
     };
   },
@@ -103,24 +105,32 @@ export default {
   &__input{
     display: block;
     background: transparent;
-    padding: 5px;
+    padding: 10px 5px;
     font-size: 18px;
     margin: 0px 0 10px 0;
     width: 100%;
-    border: 1px solid #ffbc00;
+    border: 3px dashed #ffbc00;
+    border-top: none;
     color: var(--main-text-color);
+    border-bottom-left-radius: 10px;
   }
 
   &__submit{
+    transition: background .5s;
+    will-change: background;
     cursor: pointer;
     display: block;
     background: transparent;
-    padding: 5px;
-    margin: 20px 0;
+    padding: 5px 10px;
+    margin: 10px 0;
     border: 1px solid #ffbc00;
     font-weight: 600;
     font-size: 20px;
     color: var(--main-text-color);
+
+    &:hover{
+      background: var(--button-hover-color);
+    }
   }
 
   &__info{
@@ -129,11 +139,14 @@ export default {
     font-size: 17px;
     background: #ffbc00;
     color: black;
+    border-top-right-radius: 10px;
   }
 
   &__logo img{
     width: 50px;
     height: 50px;
+    margin: 10px;
+    border: 3px dashed rgb(255, 196, 3);
   }
 }
 </style>

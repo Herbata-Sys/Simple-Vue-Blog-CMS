@@ -24,9 +24,11 @@ export default {
       article: {},
       lightCss: {
         '--main-text-color': 'black',
+        '--button-hover-color': '#fdd872',
       },
       darkCss: {
         '--main-text-color': '#d8d8d8',
+        '--button-hover-color': '#ffb10030',
       },
     };
   },
@@ -79,18 +81,25 @@ export default {
 .deletearticle{
 
   &__button{
+    transition: background .5s;
+    will-change: background;
     cursor: pointer;
     display: block;
     background: transparent;
-    padding: 5px;
-    margin: 10px 0;
+    padding: 5px 10px;
+    margin: 10px auto;
     border: 1px solid #ffbc00;
     font-weight: 600;
     font-size: 20px;
     color: var(--main-text-color);
+
+    &:hover{
+      background: var(--button-hover-color);
+    }
   }
 
   &__text{
+    text-align: center;
     font-size: 20px;
     padding: 40px 0 20px 0;
   }
