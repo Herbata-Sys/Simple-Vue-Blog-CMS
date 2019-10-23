@@ -2,7 +2,7 @@
   <div class="articles" :style="this[theme]">
     <h2><font-awesome-icon icon="newspaper"/> Lista wszystkich artykułów</h2>
 
-    <div v-if="!loading" class="articles__container">
+    <div v-if="!loading && articles.length" class="articles__container">
       <table class="articles__table">
         <tr>
           <th @click="sortBy('id')" title="Sortuj po ID">ID</th>
@@ -19,6 +19,10 @@
           <td><div><router-link :to="'editArticle/'+article.id" class="articles__edit">Edytuj</router-link></div><router-link :to="'deleteArticle/'+article.id" class="articles__delete">Usuń</router-link></td>
         </tr>
       </table>
+    </div>
+
+    <div v-if="!loading && !articles.length" class="articles__message">
+      Nie ma żadnych artykułów
     </div>
   </div>
 </template>
@@ -40,7 +44,7 @@ export default {
         '--main-text-color': 'black',
         '--tr-background': '#f2f2f2',
         '--td-border': '#e7e7e7',
-        '--tr-hover': '#d4d6ff',
+        '--tr-hover': '#fff9de',
       },
       darkCss: {
         '--main-text-color': '#d8d8d8',
@@ -171,7 +175,7 @@ export default {
     th{
       text-align: center;
       color: white;
-      background: #213477;
+      background: #ff9900;
       cursor: pointer;
     }
 
@@ -202,6 +206,13 @@ export default {
 
   &__date{
     font-size: 12px;
+  }
+
+  &__message{
+    font-size: 40px;
+    text-align: center;
+    padding: 80px 0;
+    color: var(--main-text-color);
   }
 }
 

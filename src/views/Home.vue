@@ -1,6 +1,6 @@
 <template>
   <div class="home" :style="this[theme]">
-    <div class="articles" v-if="!loading">
+    <div class="articles" v-if="!loading && articles.length">
       <div class="articles__view">
         <label class="articles__label">
           <input @click="viewChange($event)" class="articles__radio" v-model="picked" type="radio" name="view" value="list">
@@ -15,9 +15,17 @@
         <HomeArticle v-for="article in articles" :key="article.id" :article="article"/>
       </div>
 
-      <div class="articles__load" title="Załaduj kolejne 5 artykułów" @click="getArticles">
+      <div v-if="moreArticles" class="articles__load" title="Załaduj kolejne 5 artykułów" @click="getArticles">
         Więcej
       </div>
+    </div>
+
+    <div class="message message--noArticles" v-if="!moreArticles">
+      Nie ma więcej artykułów
+    </div>
+
+    <div class="message" v-if="!loading && !articles.length">
+      Nie ma żadnych artykułów
     </div>
   </div>
 </template>
@@ -38,6 +46,7 @@ export default {
     return {
       loading: true,
       picked: 'list',
+      moreArticles: true,
       lightCss: {
         '--button-background-color': '#ffb100',
         '--button-text-color': 'white',
@@ -69,8 +78,12 @@ export default {
         params: { page: (this.$store.state.page + 1) },
       })
         .then((response) => {
-          this.push_Articles(response.data.data);
-          this.set_Page(this.$store.state.page + 1);
+          if (response.data.data.length > 0) {
+            this.push_Articles(response.data.data);
+            this.set_Page(this.$store.state.page + 1);
+          } else {
+            this.moreArticles = false;
+          }
         });
     },
 
@@ -178,13 +191,23 @@ export default {
     will-change: color, background-color;
     color: var(--button-unactive-text-color);
   }
+}
 
-  @media only screen and (max-width: 800px) {
-    .articles{
+.message{
+  font-size: 40px;
+  text-align: center;
+  padding-top: 80px;
 
-      &__view{
-        display: none;
-      }
+  &--noArticles{
+    padding-bottom: 80px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .articles{
+
+    &__view{
+      display: none;
     }
   }
 }

@@ -5,7 +5,11 @@
       <div class="tags__placeholder">Wpisz Tag</div>
     </div>
 
-    <TagsShow v-if="!loading" :tags="tags" :search="search" />
+    <TagsShow v-if="!loading && tags.length" :tags="tags" :search="search" />
+
+    <div v-if="!loading && !tags.length" class="tags__message">
+      Nie ma żadnych tagów
+    </div>
   </div>
 </template>
 
@@ -24,7 +28,7 @@ export default {
     return {
       loading: true,
       search: '',
-      tags: [{ id: 0, name: '' }],
+      tags: [],
       lightCss: {
         '--main-text-color': 'black',
       },
@@ -98,6 +102,13 @@ export default {
     left: 10px;
     font-size: 16px;
     opacity: 1;
+  }
+
+  &__message{
+    font-size: 40px;
+    text-align: center;
+    padding: 80px 0;
+    color: var(--main-text-color);
   }
 }
 

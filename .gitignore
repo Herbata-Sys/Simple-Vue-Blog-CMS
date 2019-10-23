@@ -22,3 +22,5 @@ yarn-error.log*
 
 
 /public/api/model/config.php
+/public/img/favicon.ico
+/public/img/logo.png

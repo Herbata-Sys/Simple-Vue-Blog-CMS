@@ -2,7 +2,7 @@
   <div class="users" :style="this[theme]">
     <h2><font-awesome-icon icon="users"/> Użytkownicy</h2>
 
-    <div v-if="!loading" class="users__container">
+    <div v-if="!loading && users.length" class="users__container">
       <table class="users__table">
         <tr>
           <th @click="sortBy('id')" title="Sortuj po ID">ID</th>
@@ -25,6 +25,10 @@
         </tr>
       </table>
     </div>
+
+    <div v-if="!loading && !users.length" class="users__message">
+      Nie ma żadnych artykułów
+    </div>
   </div>
 </template>
 
@@ -45,7 +49,7 @@ export default {
         '--main-text-color': 'black',
         '--tr-background': '#f2f2f2',
         '--td-border': '#e7e7e7',
-        '--tr-hover': '#d4d6ff',
+        '--tr-hover': '#fff9de',
       },
       darkCss: {
         '--main-text-color': '#d8d8d8',
@@ -175,7 +179,7 @@ export default {
     th{
       text-align: center;
       color: white;
-      background: #213477;
+      background: #ff9900;
       cursor: pointer;
     }
 
@@ -217,6 +221,13 @@ export default {
   &__nonAdmin{
     background: linear-gradient(100deg, rgba(255,255,255,0) 10%, rgba(255, 0, 0, 0.2) 100%);
     font-weight: 600;
+  }
+
+  &__message{
+    font-size: 40px;
+    text-align: center;
+    padding: 80px 0;
+    color: var(--main-text-color);
   }
 }
 
