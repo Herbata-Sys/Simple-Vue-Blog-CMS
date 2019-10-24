@@ -132,8 +132,10 @@ class Article extends api {
 	function deleteArticleImages($file) {
 		$image_path = '../img/articles/'.$file;
 		$thumb_path = '../img/articles/thumb/'.$file;
-		unlink($image_path);
-		unlink($thumb_path);
+		if (file_exists($image_path))
+			unlink($image_path);
+		if (file_exists($thumb_path))
+			unlink($thumb_path);
 	}
 
 	function addArticle($data, $file, $tags, $text) {
