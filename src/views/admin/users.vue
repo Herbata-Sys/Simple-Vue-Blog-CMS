@@ -166,20 +166,13 @@ export default {
     }
 
     tr:first-child{
-
-      th:first-child{
-        border-top-left-radius: 10px;
-      }
-
-      th:last-child{
-        border-top-right-radius: 10px;
-      }
+      border-bottom: 2px dashed #ff9900;
     }
 
     th{
       text-align: center;
       color: white;
-      background: #ff9900;
+      background: #ffbc00;
       cursor: pointer;
     }
 
@@ -199,14 +192,16 @@ export default {
 
   &__delete{
     color: #ff0000;
+    font-size: 13px;
   }
 
   &__edit{
     color: #0059ff;
+    font-size: 13px;
   }
 
   &__id{
-    color: #ff6100;
+    color: var(--main-text-color);
   }
 
   &__date{

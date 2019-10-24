@@ -1,9 +1,5 @@
 <template>
   <header :style="this[theme]">
-    <transition name="info">
-      <Info v-show="$store.state.infoShow" />
-    </transition>
-
     <font-awesome-icon @click="mobileMenuExpand=!mobileMenuExpand" class="menu__hamburger menu__link" icon="bars"/>
 
     <nav>
@@ -100,13 +96,11 @@
 import { mapMutations, mapActions } from 'vuex';
 import VueRecaptcha from 'vue-recaptcha';
 import axios from 'axios';
-import Info from '@/components/Info.vue';
 
 export default {
   name: 'Header',
 
   components: {
-    Info,
     VueRecaptcha,
   },
 
@@ -658,63 +652,6 @@ nav{
     cursor: pointer;
     font-weight: 900;
     border-bottom: 3px solid black;
-  }
-}
-
-//info
-.info-enter-active {
-  animation: bounce-in-top 1s;
-}
-
-.info-leave-active {
-  animation: slide-out-bottom 2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
-}
-
-@keyframes bounce-in-top {
-  0% {
-    transform: translateY(-500px) translateX(-50%);
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-  38% {
-    transform: translateY(0) translateX(-50%);
-    animation-timing-function: ease-out;
-    opacity: 1;
-  }
-  55% {
-    transform: translateY(-65px) translateX(-50%);
-    animation-timing-function: ease-in;
-  }
-  72% {
-    transform: translateY(0) translateX(-50%);
-    animation-timing-function: ease-out;
-  }
-  81% {
-    transform: translateY(-28px) translateX(-50%);
-    animation-timing-function: ease-in;
-  }
-  90% {
-    transform: translateY(0) translateX(-50%);
-    animation-timing-function: ease-out;
-  }
-  95% {
-    transform: translateY(-8px) translateX(-50%);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translateY(0) translateX(-50%);
-    animation-timing-function: ease-out;
-  }
-}
-
-@keyframes slide-out-bottom {
-  0% {
-    transform: translateY(0) translateX(-50%);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(300px) translateX(-50%);
-    opacity: 0;
   }
 }
 
