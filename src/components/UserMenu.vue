@@ -8,6 +8,7 @@
     <ul class="menu__list">
       <li class="menu__item"><router-link to="/user" class="menu__link"><font-awesome-icon class="menu__icon" icon="user"/> Panel użytkownika</router-link></li>
       <li class="menu__item"><router-link to="/user/changePassword" class="menu__link"><font-awesome-icon class="menu__icon" icon="key"/> Zmień hasło</router-link></li>
+      <li class="menu__item"><router-link to="/user/changeAvatar" class="menu__link"><font-awesome-icon class="menu__icon" icon="file-image"/> Zmień avatar</router-link></li>
       <li class="menu__item"><router-link to="/user/myComments" class="menu__link"><font-awesome-icon class="menu__icon" icon="comment-alt"/> Moje komentarze</router-link></li>
     </ul>
 

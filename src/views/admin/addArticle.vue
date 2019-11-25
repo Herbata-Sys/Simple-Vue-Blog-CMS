@@ -6,8 +6,11 @@
       <div class="addarticle__info">Tytuł artykułu (maksymalnie 500 znaków):</div>
       <input v-model="newArticle.title" type="text" class="addarticle__input" placeholder="Tytuł artykułu" maxlength="500" minlength="3" required>
 
-      <div class="addarticle__info">Zdjęcie do artykułu (rozszerzenie <b>.jpg</b> lub <b>.jpeg</b>, minimalna preferowana szerokość <b>1100px</b>):</div>
-      <input type="file" accept="image/jpeg,.jpg,.jpeg" ref="file" v-on:change="onChangeFileUpload" required>
+      <div class="addarticle__info">
+        Zdjęcie do artykułu (rozszerzenie <b>.jpg</b> lub <b>.jpeg</b>, minimalna preferowana szerokość <b>1100px</b>):
+        <input type="file" accept="image/jpeg,.jpg,.jpeg" ref="file" v-on:change="onChangeFileUpload" required>
+      </div>
+
       <div class="addarticle__logo">
         <img v-if="url" :src="url" />
       </div>

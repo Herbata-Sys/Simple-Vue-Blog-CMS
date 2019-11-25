@@ -17,6 +17,7 @@
 
         <div class="comments__commentInfo">
           <div class="comments__commentAuthor">
+            <img class="comments__authorAvatar" :src='comment.user_avatar == "" ? "/img/user.svg" : comment.user_avatar'>
             <router-link :to="'/article/' + comment.article + '#comment' + comment.id" class="comments__anchor">#</router-link>
             {{ comment.author }}
             <div class="comments__admin" v-if="$store.state.user.admin==='1' && !viewOnly">
@@ -69,6 +70,7 @@
           <div class="comments__commentAnswer" v-for="answer in comment.answers" :key="answer.id">
             <div class="comments__answerInfo">
               <div class="comments__answerAuthor">
+                <img class="comments__authorAvatar" :src='answer.user_avatar == "" ? "/img/user.svg" : answer.user_avatar'>
                 {{ answer.author }}
                 <div class="comments__admin" v-if="$store.state.user.admin==='1' && !viewOnly">
                   <router-link class="comments__deleteUser" :to="'/admin/deleteUser/'+answer.author_id" title="Usuń użytkownika">[Usuń użytkownika]</router-link>
@@ -314,6 +316,7 @@ export default {
             up: 0,
             down: 0,
             answers: [],
+            user_avatar: this.getUserAvatar(),
           };
 
           const formdata = new FormData();
@@ -349,6 +352,7 @@ export default {
               content: replyText,
               up: 0,
               down: 0,
+              user_avatar: this.getUserAvatar(),
             };
 
             const formdata = new FormData();
@@ -395,6 +399,15 @@ export default {
     toggleAnswers(comment) {
       comment.showAnswers = !comment.showAnswers;
       this.componentKey2 += 1;
+    },
+
+    getUserAvatar() {
+      let avatar = '';
+      axios.get('/api/getUserAvatar.php')
+        .then((response) => {
+          ({ avatar } = response.data.data);
+        });
+      return avatar;
     },
   },
 
@@ -500,6 +513,20 @@ export default {
     margin-left: 10px;
   }
 
+  &__commentAuthor, &__answerAuthor{
+    display: flex;
+    align-items: center;
+  }
+
+  &__authorAvatar{
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    border: 1px solid #bfbfbf;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+
   &__admin{
     display: inline-block;
   }
@@ -508,6 +535,7 @@ export default {
     color: red;
     font-weight: 900;
     text-decoration: none;
+    padding-left: 5px;
   }
 
   &__deleteComment{

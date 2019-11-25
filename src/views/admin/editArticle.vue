@@ -8,8 +8,10 @@
 
       <div class="editarticle__info">Aktualne zdjęcie artykułu:</div>
       <img class="editarticle__image" :src="url">
-      <div class="editarticle__info">Zdjęcie do artykułu, <b>wybierz jeśli chcesz zmienić zdjęcie, w przeciwnym razie pozostaw puste</b> (rozszerzenie <b>.jpg</b> lub <b>.jpeg</b>, minimalna preferowana szerokość <b>1100px</b>):</div>
-      <input type="file" accept="image/jpeg,.jpg,.jpeg" ref="file" v-on:change="onChangeFileUpload">
+      <div class="editarticle__info">
+        Zdjęcie do artykułu, <b>wybierz jeśli chcesz zmienić zdjęcie, w przeciwnym razie pozostaw puste</b> (rozszerzenie <b>.jpg</b> lub <b>.jpeg</b>, minimalna preferowana szerokość <b>1100px</b>):
+        <input type="file" accept="image/jpeg,.jpg,.jpeg" ref="file" v-on:change="onChangeFileUpload">
+      </div>
 
       <div class="editarticle__info">Krótki tekst, który będzie widoczny na stronie głównej pod artykułem <b>(nie zawiera znaczników ani formatowania)</b>:</div>
       <textarea v-model="article.shortText" class="editarticle__textarea" placeholder="Krótki tekst" maxlength="2000" minlength="10" required></textarea>

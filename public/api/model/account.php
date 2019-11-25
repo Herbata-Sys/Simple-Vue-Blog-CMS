@@ -133,5 +133,67 @@ class Account extends api {
 			return $this->create_object('Połączenie z bazą nie mogło zostać utworzone / Błąd zapytania');
 		}
 	}
+
+	function getUserAvatar() {
+		try {
+			$stmt = $this->pdo->prepare('SELECT avatar FROM users WHERE id = :user_id');
+			$stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+			$stmt->execute();
+
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			$stmt->closeCursor();
+
+			return $this->create_object('Avatar', true, $row);
+
+		} catch(PDOException $e) {
+			return $this->create_object('Połączenie z bazą nie mogło zostać utworzone / Błąd zapytania');
+		}
+	}
+
+	function createAvatar($file) {
+		$time = time();
+		$avatar_path = '../img/avatars/avatar_'.$time.'.webp';
+		$im = imagecreatefromstring(file_get_contents($file['tmp_name']));
+		$im = imagescale($im, 50);
+
+		imagewebp($im, $avatar_path);
+		imagedestroy($im);
+		return '../img/avatars/avatar_'.$time.'.webp';
+	}
+
+	function deleteAvatar($path) {
+		if (file_exists($path))
+			unlink($path);
+	}
+
+	function changeAvatar($file) {
+		$oldAvatar = '';
+		try {
+			$stmt = $this->pdo->prepare('SELECT avatar FROM users WHERE id = :user_id');
+			$stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+			$stmt->execute();
+
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			$stmt->closeCursor();
+
+			$oldAvatar = $row['avatar'];
+		} catch(PDOException $e) {
+			return $this->create_object('Połączenie z bazą nie mogło zostać utworzone / Błąd zapytania');
+		}
+
+		$this->deleteAvatar($oldAvatar);
+		$avatarName = $this->createAvatar($file);
+
+		try {
+			$stmt = $this->pdo->prepare('UPDATE users SET avatar = :avatar WHERE id = :user_id');
+			$stmt->bindValue(':avatar', $avatarName, PDO::PARAM_STR);
+			$stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+			$stmt->execute();
+
+			return $this->create_object('Zmieniono avatar', true);
+		} catch(PDOException $e) {
+			return $this->create_object('Połączenie z bazą nie mogło zostać utworzone / Błąd zapytania');
+		}
+	}
 }
 ?>

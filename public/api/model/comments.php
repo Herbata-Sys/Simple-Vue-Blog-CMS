@@ -7,7 +7,7 @@ class Comments extends api {
 		['article_id' => $article_id] = $data;
 
 		try {
-			$stmt = $this->pdo->prepare('SELECT comments.*, comments.author as "author_id", users.name as "author" FROM comments JOIN users WHERE comments.author = users.id AND article = :article_id ORDER BY id DESC');
+			$stmt = $this->pdo->prepare('SELECT comments.*, comments.author as "author_id", users.avatar as "user_avatar", users.name as "author" FROM comments JOIN users WHERE comments.author = users.id AND article = :article_id ORDER BY id DESC');
 			$stmt->bindValue(':article_id', $article_id, PDO::PARAM_INT);
 			$stmt->execute();
 
@@ -31,7 +31,7 @@ class Comments extends api {
 					}
 				}
 
-				$stmt = $this->pdo->prepare('SELECT answers.*, answers.author as "author_id", users.name as "author" FROM answers JOIN users WHERE answers.author = users.id AND comment = :comment_id');
+				$stmt = $this->pdo->prepare('SELECT answers.*, answers.author as "author_id", users.avatar as "user_avatar", users.name as "author" FROM answers JOIN users WHERE answers.author = users.id AND comment = :comment_id');
 				$stmt->bindValue(':comment_id', $row["id"], PDO::PARAM_INT);
 				$stmt->execute();
 
@@ -230,7 +230,7 @@ class Comments extends api {
 		$user_id = $_SESSION['user_id'];
 
 		try {
-			$stmt = $this->pdo->prepare('SELECT comments.*, users.name as "author" FROM comments JOIN users WHERE comments.author = users.id AND users.id = :user_id ORDER BY comments.id DESC');
+			$stmt = $this->pdo->prepare('SELECT comments.*, users.avatar as "user_avatar", users.name as "author" FROM comments JOIN users WHERE comments.author = users.id AND users.id = :user_id ORDER BY comments.id DESC');
 			$stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 			$stmt->execute();
 
@@ -254,7 +254,7 @@ class Comments extends api {
 					}
 				}
 
-				$stmt = $this->pdo->prepare('SELECT answers.*, users.name as "author" FROM answers JOIN users WHERE answers.author = users.id AND comment = :comment_id');
+				$stmt = $this->pdo->prepare('SELECT answers.*, users.avatar as "user_avatar", users.name as "author" FROM answers JOIN users WHERE answers.author = users.id AND comment = :comment_id');
 				$stmt->bindValue(':comment_id', $row["id"], PDO::PARAM_INT);
 				$stmt->execute();
 
