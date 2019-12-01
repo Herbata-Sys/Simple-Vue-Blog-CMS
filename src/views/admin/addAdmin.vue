@@ -2,7 +2,9 @@
   <div class="addadmin" :style="this[theme]">
     <h2><font-awesome-icon icon="plus-square"/> Przyznaj uprawnienia administracyjne</h2>
 
-    <div class="addadmin__container">
+    <Loading v-if="loading" />
+
+    <div v-if="!loading" class="addadmin__container">
       <div class="addadmin__text">
         Przyznać uprawnienia administracyjne użytkownikowi o id: <b>{{ $route.params.id }}</b>? Będzie on posiadał wszystkie uprawnienia do zarządzania stroną.
       </div>
@@ -14,12 +16,18 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
-  name: 'addadmin',
+  name: 'addAdmin',
+
+  components: {
+    Loading,
+  },
 
   data() {
     return {
+      loading: false,
       lightCss: {
         '--main-text-color': 'black',
         '--button-hover-color': '#fdd872',
@@ -43,6 +51,7 @@ export default {
     ]),
 
     addAdmin() {
+      this.loading = true;
       axios.get('/api/addAdmin.php', {
         params: {
           id: this.$route.params.id,
@@ -52,6 +61,7 @@ export default {
           response = response.data;
           if (response.success) this.$router.push('/admin/users');
           this.showInfo(response.info);
+          this.loading = false;
         });
     },
   },

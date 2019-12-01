@@ -141,7 +141,7 @@ class Install extends api {
         `name` varchar(60) COLLATE utf8_polish_ci NOT NULL,
         `password` varchar(100) COLLATE utf8_polish_ci NOT NULL,
         `reg_date` varchar(60) COLLATE utf8_polish_ci NOT NULL,
-        `avatar` text COLLATE utf8_polish_ci,
+        `avatar` text COLLATE utf8_polish_ci NOT NULL,
         `admin` tinyint(1) NOT NULL,
         PRIMARY KEY (`id`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;');

@@ -2,7 +2,9 @@
   <div class="password" :style="this[theme]">
     <h2><font-awesome-icon icon="key"/> Zmień hasło</h2>
 
-    <form class="password__form" v-on:submit.prevent="changePassword">
+    <Loading v-if="loading" />
+
+    <form v-if="!loading" class="password__form" v-on:submit.prevent="changePassword">
       <input type="password" class="password__input" placeholder="Stare hasło" minlength="6" v-model="passwordData.old" required>
       <input type="password" class="password__input" placeholder="Nowe hasło" minlength="6" v-model="passwordData.new" required>
       <input type="password" class="password__input" placeholder="Powtórz hasło" minlength="6" v-model="passwordData.newRepeat" required>
@@ -14,12 +16,18 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'changePassword',
 
+  components: {
+    Loading,
+  },
+
   data() {
     return {
+      loading: false,
       passwordData: {
         old: '',
         new: '',
@@ -48,6 +56,7 @@ export default {
     ]),
 
     changePassword() {
+      this.loading = true;
       const formdata = new FormData();
       formdata.append('old', this.passwordData.old);
       formdata.append('new', this.passwordData.new);
@@ -64,6 +73,7 @@ export default {
             this.passwordData.newRepeat = '';
           }
           this.showInfo(response.info);
+          this.loading = false;
         });
     },
   },

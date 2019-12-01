@@ -29,6 +29,7 @@ import {
   faChevronRight,
   faEdit,
   faFileImage,
+  faUserSlash,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -40,7 +41,7 @@ import store from './store';
 Vue.use(VueAxios, axios, _);
 
 
-library.add(faSearch, faStream, faThLarge, faWindowClose, faAdjust, faArrowRight, faPlusSquare, faMinusSquare, faSignOutAlt, faBars, faUser, faUserTie, faKey, faCommentAlt, faAngleDown, faAngleUp, faColumns, faNewspaper, faUsers, faTimes, faChevronRight, faEdit, faFileImage);
+library.add(faSearch, faStream, faThLarge, faWindowClose, faAdjust, faArrowRight, faPlusSquare, faMinusSquare, faSignOutAlt, faBars, faUser, faUserTie, faKey, faCommentAlt, faAngleDown, faAngleUp, faColumns, faNewspaper, faUsers, faTimes, faChevronRight, faEdit, faFileImage, faUserSlash);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

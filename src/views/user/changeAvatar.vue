@@ -2,29 +2,39 @@
   <div class="avatar" :style="this[theme]">
     <h2><font-awesome-icon icon="file-image"/> Zmień avatar</h2>
 
-    <div class="avatar__info">Twój aktualny avatar:</div>
-    <img v-if='loaded' :src='userAvatar == "" ? "/img/user.svg" : userAvatar' class="avatar__now">
+    <Loading v-if="loading" />
 
-    <form class="avatar__form" v-on:submit.prevent="changeAvatar">
-      <div class="avatar__info">Twój avatar (rozszerzenie <b>.jpg</b> lub <b>.png</b>, optymalne wymiary <b>50px x 50px</b>):<input type="file" accept="image/jpeg,.jpg,.jpeg,.png" ref="file" v-on:change="onChangeFileUpload" required></div>
+    <div v-if="!loading">
+      <div class="avatar__info">Twój aktualny avatar:</div>
+      <img v-if='loaded' :src='userAvatar == "" ? "/img/user.svg" : userAvatar' class="avatar__now">
 
-      <div class="avatar__preview">
-        <img v-if="url" :src="url" />
-      </div>
-      <input type="submit" class="avatar__submit" value="Zapisz">
-    </form>
+      <form class="avatar__form" v-on:submit.prevent="changeAvatar">
+        <div class="avatar__info">Twój avatar (rozszerzenie <b>.jpg</b> lub <b>.png</b>, optymalne wymiary <b>50px x 50px</b>):<input type="file" accept="image/jpeg,.jpg,.jpeg,.png" ref="file" v-on:change="onChangeFileUpload" required></div>
+
+        <div class="avatar__preview">
+          <img v-if="url" :src="url" />
+        </div>
+        <input type="submit" class="avatar__submit" value="Zapisz">
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'changeAvatar',
 
+  components: {
+    Loading,
+  },
+
   data() {
     return {
+      loading: false,
       loaded: false,
       url: null,
       file: '',
@@ -52,6 +62,7 @@ export default {
     ]),
 
     changeAvatar() {
+      this.loading = true;
       const formdata = new FormData();
       formdata.append('file', this.file);
       const config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -61,6 +72,7 @@ export default {
         .then((response) => {
           response = response.data;
           this.showInfo(response.info);
+          this.loading = false;
         });
     },
 
@@ -136,15 +148,15 @@ export default {
     width: 50px;
     border: 1px solid #bfbfbf;
     margin-right: 10px;
-    border-radius: 5px;
+    border-radius: 100px;
     margin: 5px 5px 0 5px;
   }
 
   &__preview img{
     height: 50px;
-    max-width: 100%;
+    width: 50px;
     border: 1px solid #bfbfbf;
-    border-radius: 5px;
+    border-radius: 100px;
     margin: 5px 5px 0 5px;
   }
 }

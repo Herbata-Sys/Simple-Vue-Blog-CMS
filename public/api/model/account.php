@@ -195,5 +195,36 @@ class Account extends api {
 			return $this->create_object('Połączenie z bazą nie mogło zostać utworzone / Błąd zapytania');
 		}
 	}
+
+	function deleteAccount($data) {
+		$data = $this->test_input($data);
+		['captcha' => $captcha] = $data;
+
+		if (!$this->captcha_verify($captcha))
+			return $this->create_object('Nieprawidłowa captcha');
+
+		try {
+			$stmt = $this->pdo->prepare('DELETE FROM users WHERE id = :user_id');
+			$stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$stmt->closeCursor();
+
+			$stmt = $this->pdo->prepare('DELETE FROM comments WHERE author = :user_id');
+			$stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$stmt->closeCursor();
+
+			$stmt = $this->pdo->prepare('DELETE FROM answers WHERE author = :user_id');
+			$stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$stmt->closeCursor();
+
+			$this->logout();
+
+			return $this->create_object('Konto zostało usunięte.', true);
+		} catch(PDOException $e) {
+			return $this->create_object('Połączenie z bazą nie mogło zostać utworzone / Błąd zapytania');
+		}
+	}
 }
 ?>

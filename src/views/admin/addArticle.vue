@@ -2,7 +2,9 @@
   <div class="addarticle" :style="this[theme]">
     <h2><font-awesome-icon icon="plus-square"/> Dodaj artykuł</h2>
 
-    <form class="password__form" v-on:submit.prevent="addArticle">
+    <Loading v-if="loading" />
+
+    <form v-if="!loading" class="password__form" v-on:submit.prevent="addArticle">
       <div class="addarticle__info">Tytuł artykułu (maksymalnie 500 znaków):</div>
       <input v-model="newArticle.title" type="text" class="addarticle__input" placeholder="Tytuł artykułu" maxlength="500" minlength="3" required>
 
@@ -49,12 +51,18 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'addArticle',
 
+  components: {
+    Loading,
+  },
+
   data() {
     return {
+      loading: false,
       url: null,
       file: '',
       pickedTags: [],
@@ -152,6 +160,7 @@ export default {
     },
 
     addArticle() {
+      this.loading = true;
       const formdata = new FormData();
       formdata.append('title', this.newArticle.title);
       formdata.append('shortText', this.newArticle.shortText);
@@ -167,11 +176,10 @@ export default {
       axios
         .post('/api/addArticle.php', formdata, config)
         .then((response) => {
+          this.loading = false;
           response = response.data;
           if (response.success) {
             this.newArticle = {};
-            this.$refs.file.type = 'text';
-            this.$refs.file.type = 'file';
             this.pickedTags = [];
             this.$router.push({ path: `/article/${response.data}` });
           }

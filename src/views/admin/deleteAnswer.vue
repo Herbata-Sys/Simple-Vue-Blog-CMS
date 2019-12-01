@@ -2,7 +2,9 @@
   <div class="deleteanswer" :style="this[theme]">
     <h2><font-awesome-icon icon="times"/> Usuń odpowiedź</h2>
 
-    <div class="deleteanswer__container">
+    <Loading v-if="loading" />
+
+    <div v-if="!loading" class="deleteanswer__container">
       <div class="deleteanswer__text">
         Na pewno chcesz usunąć odpowiedź o id: <b>{{ $route.params.id }}</b>? Operacji nie da się cofnąć.
       </div>
@@ -14,12 +16,18 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'deleteAnswer',
 
+  components: {
+    Loading,
+  },
+
   data() {
     return {
+      loading: false,
       lightCss: {
         '--main-text-color': 'black',
         '--button-hover-color': '#fdd872',
@@ -43,6 +51,7 @@ export default {
     ]),
 
     deleteAnswer() {
+      this.loading = true;
       axios.get('/api/deleteAnswer.php', {
         params: {
           id: this.$route.params.id,
@@ -55,6 +64,7 @@ export default {
             this.$router.go(-2);
           }
           this.showInfo(response.info);
+          this.loading = false;
         });
     },
   },

@@ -2,7 +2,9 @@
   <div class="deletearticle" :style="this[theme]">
     <h2><font-awesome-icon icon="times"/> Usuń artykuł</h2>
 
-    <div class="deletearticle__container" v-if="!loading">
+    <Loading v-if="loading" />
+
+    <div v-if="!loading" class="deletearticle__container">
       <div class="deletearticle__text">
         Na pewno chcesz usunąć artykuł o id: <b>{{ article.id }}</b> i tytule: <b>"{{ article.title }}"</b>? Zostaną usunięte także wszystkie komentarze i odpowiedzi powiązane z artykułem. Operacji nie da się cofnąć.
       </div>
@@ -14,13 +16,18 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'deleteArticle',
 
+  components: {
+    Loading,
+  },
+
   data() {
     return {
-      loading: 1,
+      loading: false,
       article: {},
       lightCss: {
         '--main-text-color': 'black',
@@ -53,11 +60,11 @@ export default {
         .then((response) => {
           this.article = response.data.data;
           this.pickedTags = response.data.data.tags;
-          this.loading = 0;
         });
     },
 
     deleteArticle() {
+      this.loading = true;
       axios.get('/api/deleteArticle.php', {
         params: {
           id: this.$route.params.id,
@@ -67,6 +74,7 @@ export default {
           response = response.data;
           if (response.success) this.$router.push('/admin/articles');
           this.showInfo(response.info);
+          this.loading = false;
         });
     },
   },

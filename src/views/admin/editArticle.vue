@@ -2,7 +2,9 @@
   <div class="editarticle" :style="this[theme]">
     <h2><font-awesome-icon icon="edit"/> Edytuj artykuł</h2>
 
-    <form v-if="!loading" class="password__form" v-on:submit.prevent="editArticle">
+    <Loading v-if="loadingMain" />
+
+    <form v-if="!loading && !loadingMain" class="password__form" v-on:submit.prevent="editArticle">
       <div class="editarticle__info">Tytuł artykułu (maksymalnie 500 znaków):</div>
       <input v-model="article.title" type="text" class="editarticle__input" placeholder="Tytuł artykułu" maxlength="500" minlength="3" required>
 
@@ -47,12 +49,18 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'editArticle',
 
+  components: {
+    Loading,
+  },
+
   data() {
     return {
+      loadingMain: false,
       loading: 1,
       file: '',
       article: {},
@@ -168,6 +176,7 @@ export default {
     },
 
     editArticle() {
+      this.loadingMain = true;
       const formdata = new FormData();
       formdata.append('id', this.$route.params.id);
       formdata.append('title', this.article.title);
@@ -188,12 +197,11 @@ export default {
           response = response.data;
           if (response.success) {
             this.article = {};
-            this.$refs.file.type = 'text';
-            this.$refs.file.type = 'file';
             this.pickedTags = [];
             this.$router.push({ path: `/article/${this.$route.params.id}` });
           }
           this.showInfo(response.info);
+          this.loadingMain = false;
         });
     },
 

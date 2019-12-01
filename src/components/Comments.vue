@@ -524,7 +524,7 @@ export default {
     width: 50px;
     border: 1px solid #bfbfbf;
     margin-right: 10px;
-    border-radius: 5px;
+    border-radius: 100px;
   }
 
   &__admin{

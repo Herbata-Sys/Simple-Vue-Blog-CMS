@@ -2,7 +2,9 @@
   <div class="deletecomment" :style="this[theme]">
     <h2><font-awesome-icon icon="times"/> Usuń komentarz</h2>
 
-    <div class="deletecomment__container">
+    <Loading v-if="loading" />
+
+    <div v-if="!loading" class="deletecomment__container">
       <div class="deletecomment__text">
         Na pewno chcesz usunąć komentarz o id: <b>{{ $route.params.id }}</b>? Zostaną usunięte również wszystkie odpowiedzi do komentarza. Operacji nie da się cofnąć.
       </div>
@@ -14,12 +16,18 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'deleteComment',
 
+  components: {
+    Loading,
+  },
+
   data() {
     return {
+      loading: false,
       lightCss: {
         '--main-text-color': 'black',
         '--button-hover-color': '#fdd872',
@@ -43,6 +51,7 @@ export default {
     ]),
 
     deleteComment() {
+      this.loading = true;
       axios.get('/api/deleteComment.php', {
         params: {
           id: this.$route.params.id,
@@ -55,6 +64,7 @@ export default {
             this.$router.go(-2);
           }
           this.showInfo(response.info);
+          this.loading = false;
         });
     },
   },

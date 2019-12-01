@@ -2,7 +2,9 @@
   <div class="blog" :style="this[theme]">
     <h2><font-awesome-icon icon="columns"/> Ogólne ustawienia bloga</h2>
 
-    <form class="password__form" v-on:submit.prevent="updateBlog">
+    <Loading v-if="loading" />
+
+    <form v-if="!loading" class="password__form" v-on:submit.prevent="updateBlog">
       <div class="blog__info">Logo <b>(50px x 50px)</b> format: <b>.png</b>:</div>
       <input type="file" accept="image/png, .png" ref="file" v-on:change="onChangeFileUpload" required>
       <div class="blog__logo">
@@ -25,12 +27,18 @@
 <script>
 import { mapActions, mapMutations } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'blog',
 
+  components: {
+    Loading,
+  },
+
   data() {
     return {
+      loading: false,
       url: '/img/logo.png',
       file: '',
       blog: {},
@@ -61,6 +69,7 @@ export default {
     ]),
 
     updateBlog() {
+      this.loading = true;
       const formdata = new FormData();
       formdata.append('title', this.blog.title);
       formdata.append('subtitle', this.blog.subtitle);
@@ -76,6 +85,7 @@ export default {
             this.set_Blog(this.blog);
           }
           this.showInfo(response.info);
+          this.loading = false;
         });
     },
 

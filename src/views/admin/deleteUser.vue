@@ -2,6 +2,8 @@
   <div class="deleteuser" :style="this[theme]">
     <h2><font-awesome-icon icon="times"/> Usuń użytkownika</h2>
 
+    <Loading v-if="loading" />
+
     <div class="deleteuser__container">
       <div class="deleteuser__text">
         Na pewno chcesz usunąć użytkownika o id: <b>{{ $route.params.id }}</b>? Zostaną usunięte wszystkie komentarze, odpowiedzi i artykuły napisane przez użytkownika. Operacji nie da się cofnąć.
@@ -14,12 +16,18 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'deleteUser',
 
+  components: {
+    Loading,
+  },
+
   data() {
     return {
+      loading: false,
       lightCss: {
         '--main-text-color': 'black',
         '--button-hover-color': '#fdd872',
@@ -43,6 +51,7 @@ export default {
     ]),
 
     deleteUser() {
+      this.loading = true;
       axios.get('/api/deleteUser.php', {
         params: {
           id: this.$route.params.id,
@@ -52,6 +61,7 @@ export default {
           response = response.data;
           if (response.success) this.$router.push('/admin/users');
           this.showInfo(response.info);
+          this.loading = false;
         });
     },
   },

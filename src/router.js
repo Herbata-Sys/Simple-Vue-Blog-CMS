@@ -11,6 +11,7 @@ import userHome from './views/user/userHome.vue';
 import changePassword from './views/user/changePassword.vue';
 import changeAvatar from './views/user/changeAvatar.vue';
 import myComments from './views/user/myComments.vue';
+import deleteAccount from './views/user/deleteAccount.vue';
 
 import blog from './views/admin/blog.vue';
 import addArticle from './views/admin/addArticle.vue';
@@ -78,6 +79,11 @@ export default new Router({
           path: 'myComments',
           name: 'myComments',
           component: myComments,
+        },
+        {
+          path: 'deleteAccount',
+          name: 'deleteAccount',
+          component: deleteAccount,
         },
         {
           path: '/admin/blog',
