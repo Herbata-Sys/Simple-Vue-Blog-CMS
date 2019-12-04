@@ -205,7 +205,7 @@ class Install extends api {
     $reg_date = date('d-m-Y G:i');
 
     try {
-      $this->install_pdo->exec("INSERT INTO users (name, email, password, reg_date, admin) VALUES ('$blogUserName', '$blogUserEmail', '$blogUserPassword', '$reg_date', 1)");
+      $this->install_pdo->exec("INSERT INTO users (name, email, password, reg_date, avatar, admin) VALUES ('$blogUserName', '$blogUserEmail', '$blogUserPassword', '$reg_date', '', 1)");
 
       return true;
     } catch(PDOException $e) {
