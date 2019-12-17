@@ -56,8 +56,8 @@ export default {
     ]),
 
     deleteAccount() {
-      this.loading = true;
       if (this.recaptchaToken !== null) {
+        this.loading = true;
         const formdata = new FormData();
         formdata.append('captcha', this.recaptchaToken);
         const config = { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } };
@@ -66,15 +66,17 @@ export default {
           .post('/api/deleteAccount.php', formdata, config)
           .then((response) => {
             response = response.data;
-            this.showInfo(response.info);
 
-            const user = {
-              name: '',
-              logged: '',
-            };
-            this.set_User(user);
+            if (response.success) {
+              const user = {
+                name: '',
+                logged: '',
+              };
+              this.set_User(user);
+              this.$router.push({ path: '/' });
+            }
             this.loading = false;
-            this.$router.push({ path: '/' });
+            this.showInfo(response.info);
           });
       } else this.showInfo('Najpierw potwierdź, że nie jesteś robotem');
     },

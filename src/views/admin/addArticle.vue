@@ -176,7 +176,6 @@ export default {
       axios
         .post('/api/addArticle.php', formdata, config)
         .then((response) => {
-          this.loading = false;
           response = response.data;
           if (response.success) {
             this.newArticle = {};
@@ -184,6 +183,7 @@ export default {
             this.$router.push({ path: `/article/${response.data}` });
           }
           this.showInfo(response.info);
+          this.loading = false;
         });
     },
 

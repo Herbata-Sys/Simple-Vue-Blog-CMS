@@ -129,6 +129,7 @@ export default {
 
   data() {
     return {
+      userAvatar: '',
       componentKey: 0,
       componentKey2: 500,
       text: '',
@@ -316,7 +317,7 @@ export default {
             up: 0,
             down: 0,
             answers: [],
-            user_avatar: this.getUserAvatar(),
+            user_avatar: this.userAvatar,
           };
 
           const formdata = new FormData();
@@ -352,7 +353,7 @@ export default {
               content: replyText,
               up: 0,
               down: 0,
-              user_avatar: this.getUserAvatar(),
+              user_avatar: this.userAvatar,
             };
 
             const formdata = new FormData();
@@ -402,12 +403,10 @@ export default {
     },
 
     getUserAvatar() {
-      let avatar = '';
       axios.get('/api/getUserAvatar.php')
         .then((response) => {
-          ({ avatar } = response.data.data);
+          this.userAvatar = response.data.data.avatar;
         });
-      return avatar;
     },
   },
 
@@ -415,6 +414,7 @@ export default {
     setTimeout(() => {
       if (location.hash.length > 0) document.querySelector(window.location.hash).scrollIntoView();
     }, 2000);
+    this.getUserAvatar();
   },
 };
 </script>
