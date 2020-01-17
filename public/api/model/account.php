@@ -90,7 +90,7 @@ class Account extends api {
 			if ($password !== $passwordRepeat)
 				return $this->create_object('Podane hasła nie są takie same');
 
-			$stmt = $this->pdo->prepare('INSERT INTO users (name, email, password, reg_date, admin) VALUES (:name, :email, :password, :reg_date, 0)');
+			$stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, reg_date, admin, avatar) VALUES (:name, :email, :password, :reg_date, 0, '')");
 			$stmt->bindValue(':name', $name, PDO::PARAM_STR);
 			$stmt->bindValue(':email', $email, PDO::PARAM_STR);
 			$stmt->bindValue(':password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);
