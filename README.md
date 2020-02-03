@@ -1,5 +1,5 @@
 # Simple-Vue-Blog-CMS
-
+[Demo](http://51.178.49.197/)
 ## How to install
 
 ### 1. Run this command in repository folder to download all needed modules
